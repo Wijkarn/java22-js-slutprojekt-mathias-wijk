@@ -47,7 +47,7 @@ function getApiResponse(searchInput, sort, per_page = defaultImgAmount) {
                 errorEl.innerText = "Flickr API is currently not available. Try again later.";
                 throw "Flickr API is currently not available.";
             }
-            else if(response.status == 10){
+            else if(response.status == 100){
                 errorEl.innerText = "Flickr API key is invalid. Please contact server owner.";
                 throw "Flickr API key is invalid.";
             }
