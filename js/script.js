@@ -36,7 +36,6 @@ function getUserInput(event) {
 // sends api request and gets a response form the api
 function getApiResponse(searchInput, sort, per_page = defaultImgAmount) {
     const flickrApiUrl = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&per_page=${per_page}&text=${searchInput}&sort=${sort}&format=json&nojsoncallback=1`;
-    // console.log(flickrApiUrl);
 
     fetch(flickrApiUrl)
         .then(response => {
