@@ -19,7 +19,6 @@ body {
 }
 
 a {
-    border: solid white 1px;
     max-width: 18%;
     margin: 10px;
     height: fit-content;
