@@ -14,17 +14,19 @@
 <body>
     <div id="imgForm">
         <form>
+            <h1>Get photos from Flickr's API.</h1>
+
             <div>
                 <label>How many images do you want?</label>
-                <input type="number" placeholder="Number of images (default is 10)" id="per_page" min="1" max="500" class="formOption">
+                <input type="number" placeholder="Number of images (default is 10)" id="per_page" min="1" max="500" class="formSmall">
             </div>
             <div>
                 <p>What do you want to search?</p>
-                <input type="text" placeholder="Search" id="search" class="formOption">
+                <input type="text" placeholder="Search" id="search">
             </div>
             <div>
                 <label>What size should the image(s) be?</label>
-                <select id="size" class="formOption">
+                <select id="size" class="formSmall">
                     <option value="n">Small</option>
                     <option value="z">Medium</option>
                     <option value="b">Big</option>
@@ -32,14 +34,14 @@
             </div>
             <div>
                 <label>How should the images be sorted?</label>
-                <select name="sort" id="sort">
+                <select name="sort" id="sort" class="formSmall">
                     <option value="relevance">Relevance</option>
                     <option value="interestingness-desc">Interestingness</option>
-                    <option value="date-posted-desc">Date</option>
+                    <option value="date-posted-desc">Most recent</option>
                 </select>
             </div>
             <div>
-                <button class="formOption">Get Images</button>
+                <button class="formSmall">Get Images</button>
                 <label id="error"></label>
             </div>
         </form>
