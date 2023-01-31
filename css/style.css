@@ -4,13 +4,14 @@ body {
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    background-color: #1b1b1b;
 }
 
 #imgContainer {
     width: 95%;
     min-height: 100px;
     padding: 30px;
-    border: 10px solid black;
+    border: 10px solid darkgray;
     border-radius: 20px;
     display: flex;
     flex-flow: row wrap;
@@ -39,7 +40,7 @@ form div {
 
 #imgForm {
     width: 25%;
-    border: 5px solid black;
+    border: 5px solid darkgray;
     border-radius: 10px;
 }
 
@@ -53,7 +54,22 @@ form * {
     margin: 10px;
 }
 
-label {
+label, h1 {
     border: 0;
     padding: 0;
+    color: darkgray;
+}
+
+input, select, button{
+    background-color: #1b1b1b;
+    color: darkgray;
+    border: 1px solid darkgray;
+}
+
+#per_page, #size, #sort, button{
+    width: 25%;
+}
+
+#search{
+    width: 50%;
 }
