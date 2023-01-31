@@ -11,7 +11,7 @@ body {
     width: 95%;
     min-height: 100px;
     padding: 30px;
-    border: 10px solid darkgray;
+    border: 10px solid lightgray;
     border-radius: 20px;
     display: flex;
     flex-flow: row wrap;
@@ -39,9 +39,9 @@ form div {
 }
 
 #imgForm {
-    width: 25%;
-    border: 5px solid darkgray;
-    border-radius: 10px;
+    min-width: 25%;
+    border: 5px solid lightgray;
+    border-radius: 50px;
 }
 
 form * {
@@ -57,13 +57,14 @@ form * {
 label, h1 {
     border: 0;
     padding: 0;
-    color: darkgray;
+    color: lightgray;
 }
 
 input, select, button{
     background-color: #1b1b1b;
     color: darkgray;
-    border: 1px solid darkgray;
+    border: 1px solid lightgray;
+    border-radius: 10px;
 }
 
 #per_page, #size, #sort, button{

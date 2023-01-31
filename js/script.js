@@ -61,7 +61,6 @@ function getApiResponse(searchInput, sort, per_page) {
 
 // prints out all images from the api on our page
 function showImage(flickr) {
-
     const imagesFromFlickr = flickr.photos.photo.length;
 
     //checks if there are any photos from the response
