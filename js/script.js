@@ -12,7 +12,6 @@ button.addEventListener("click", getUserInput);
 // gets the user's input from the form
 function getUserInput(event) {
     event.preventDefault();
-    imgContainer.innerHTML = "";
 
     const searchInput = document.querySelector("#search").value;
     per_page = document.querySelector("#per_page").value;
@@ -21,6 +20,7 @@ function getUserInput(event) {
 
     if (searchInput.length != 0) {
         errorEl.innerHTML = "";
+        imgContainer.innerHTML = "";
 
         if (per_page.length == 0) {
             per_page = per_pageDefaultAmount;
