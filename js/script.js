@@ -3,8 +3,9 @@ const apiKey = "474017e84ff7955c99cc107181f8f2db";
 
 const imgContainer = document.querySelector("#imgContainer");
 const button = document.querySelector("button");
-const errorEl = document.querySelector("#error");
+const errorInfoEl = document.querySelector("#error");
 const selectDownload = document.querySelector("#selectDownload");
+const downBtnImg = document.querySelector("#download");
 
 let per_page;
 let size;
@@ -27,17 +28,23 @@ function getUserInput(event) {
     const sort = document.querySelector("#sort").value;
     size = document.querySelector("#size").value;
 
-    if (searchInput.length != 0) {
-        errorEl.innerHTML = "";
+    if (navigator.onLine) {
 
-        if (per_page.length == 0) {
-            per_page = per_pageDefaultAmount;
+        if (searchInput.length != 0) {
+            errorInfoEl.innerHTML = "";
+
+            if (per_page.length == 0) {
+                per_page = per_pageDefaultAmount;
+            }
+
+            getApiResponse(searchInput, sort, per_page);
         }
-
-        getApiResponse(searchInput, sort, per_page);
+        else {
+            errorInfoEl.innerText = `Please fill in the search field.`;
+        }
     }
-    else {
-        errorEl.innerText = `Please fill in the search field.`;
+    else{
+        errorInfoEl.innerText = "Network error. Please check you connection!";
     }
 
     downloadImageSelect = false;
@@ -58,7 +65,7 @@ function getApiResponse(searchInput, sort, per_page) {
         })
         .then(showImage)
         .catch(error => {
-            errorEl.innerText = "There has been an error getting images";
+            errorInfoEl.innerText = "There has been an error getting the images.";
             console.log(error);
         });
 }
@@ -67,11 +74,13 @@ function getApiResponse(searchInput, sort, per_page) {
 function showImage(flickr) {
     const imagesFromFlickr = flickr.photos.photo.length;
 
-    if(linkAllImgArr == 0 && imagesFromFlickr == 0){
-        $('#download').css("display", "none");
+    // checks if there are any images on screen
+    if (linkAllImgArr == 0 && imagesFromFlickr == 0) {
+        downBtnImg.style.display = "none";
         selectDownload.style.display = "none";
         downloadImageSelect = false;
     }
+
     linkAllImgArr.length = 0;
 
     //checks if there are any photos from the response
@@ -98,6 +107,7 @@ function showImage(flickr) {
             linkToImage.target = "_blank";
             linkToImage.href = imgSrc;
             linkToImage.class = "imageLink";
+
             linkAllImgArr[i] = imgSrc;
         }
 
@@ -107,13 +117,12 @@ function showImage(flickr) {
 
     }
     else {
-        errorEl.innerText = "No images found. Please search for something else!";
-        // selectDownload.style.display = "none";
+        errorInfoEl.innerText = "No images found. Please search for something else!";
     }
 
     // if we get less images than the user wanted
     if (per_page > imagesFromFlickr && imagesFromFlickr > 0) {
-        errorEl.innerText = `Did not find ${per_page} images. Only found ${imagesFromFlickr} image(s) was found.`;
+        errorInfoEl.innerText = `Did not find ${per_page} images. Only found ${imagesFromFlickr} image(s) was found.`;
     }
 }
 
@@ -135,7 +144,7 @@ selectDownload.addEventListener("click", event => {
     if (downloadImageSelect == true) {
         downloadImageSelect = false;
         linksToDownloadImage.length = 0;
-        $('#download').css("display", "none");
+        downBtnImg.style.display = "none";
     }
     else {
         downloadImageSelect = true;
@@ -148,10 +157,9 @@ $('#imgContainer').on('click', '.thumb', function (event) {
 
         $(this).removeClass().addClass('thumbChecked');
         linksToDownloadImage.push($(this).attr('src'));
-        console.log(linksToDownloadImage);
 
         if (linksToDownloadImage.length != 0) {
-            $('#download').css("display", "block");
+            downBtnImg.style.display = "block";
         }
         event.preventDefault();
     }
@@ -166,15 +174,14 @@ $('#imgContainer').on('click', '.thumbChecked', function (event) {
         linksToDownloadImage.splice($.inArray(itemtoRemove, linksToDownloadImage), 1);
 
         if (linksToDownloadImage.length == 0) {
-            $('#download').css("display", "none");
+            downBtnImg.style.display = "none";
         }
         event.preventDefault();
     }
 });
 
-const downBtnImg = document.querySelector("#download");
-downBtnImg.addEventListener("click", generateZIP);
 //generates zip files with selected images
+downBtnImg.addEventListener("click", generateZIP);
 function generateZIP() {
     if (linksToDownloadImage != 0) {
         let zip = new JSZip();
