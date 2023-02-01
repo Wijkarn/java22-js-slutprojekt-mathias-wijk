@@ -4,11 +4,18 @@ const apiKey = "474017e84ff7955c99cc107181f8f2db";
 const imgContainer = document.querySelector("#imgContainer");
 const button = document.querySelector("button");
 const errorEl = document.querySelector("#error");
+const selectDownload = document.querySelector("#selectDownload");
+
 let per_page;
 let size;
 const per_pageDefaultAmount = 10;
-button.addEventListener("click", getUserInput);
+
+let downloadImageSelect = false;
+
+let linksToDownloadImage = [];
 let linkAllImgArr = [];
+
+button.addEventListener("click", getUserInput);
 
 // gets the user's input from the form
 function getUserInput(event) {
@@ -47,18 +54,11 @@ function getApiResponse(searchInput, sort, per_page) {
             if (response.status >= 200 && response.status < 300) {
                 return response.json();
             }
-            else if (response.status == 10 || response.status == 105) {
-                errorEl.innerText = "Flickr API is currently not available. Try again later.";
-                throw "Flickr API is currently not available.";
-            }
-            else if (response.status == 100) {
-                errorEl.innerText = "Flickr API key is invalid. Please contact server owner.";
-                throw "Flickr API key is invalid.";
-            }
+
         })
         .then(showImage)
         .catch(error => {
-            errorEl.innerText = "Network error.";
+            errorEl.innerText = "There has been an error getting images";
             console.log(error);
         });
 }
@@ -66,14 +66,20 @@ function getApiResponse(searchInput, sort, per_page) {
 // prints out all images from the api on our page
 function showImage(flickr) {
     const imagesFromFlickr = flickr.photos.photo.length;
+
+    if(linkAllImgArr == 0 && imagesFromFlickr == 0){
+        $('#download').css("display", "none");
+        selectDownload.style.display = "none";
+        downloadImageSelect = false;
+    }
     linkAllImgArr.length = 0;
 
     //checks if there are any photos from the response
     if (flickr.photos.photo != 0) {
         selectDownload.style.display = "block";
         imgContainer.innerHTML = "";
-        $('#download').css("display", "none");
 
+        //prints out all images 
         for (let i = 0; i < imagesFromFlickr; i++) {
             const linkToImage = document.createElement("a");
             const img = document.createElement("img");
@@ -89,10 +95,9 @@ function showImage(flickr) {
             img.src = imgSrc;
             img.className = "thumb";
 
-            // linkToImage.target = "_blank";
-            // linkToImage.href = imgSrc;
+            linkToImage.target = "_blank";
+            linkToImage.href = imgSrc;
             linkToImage.class = "imageLink";
-            setAElLink(i, imgSrc, true);
             linkAllImgArr[i] = imgSrc;
         }
 
@@ -103,8 +108,7 @@ function showImage(flickr) {
     }
     else {
         errorEl.innerText = "No images found. Please search for something else!";
-        selectDownload.style.display = "none";
-        downloadImageSelect = false;
+        // selectDownload.style.display = "none";
     }
 
     // if we get less images than the user wanted
@@ -113,17 +117,7 @@ function showImage(flickr) {
     }
 }
 
-function setAElLink(i, link, target) {
-    const aEl = document.querySelectorAll('a');
-    aEl[i].href = link;
-    if (target) {
-        aEl[i].target = "_blank";
-    }
-    else {
-        aEl[i].removeAttribute("target");
-    }
-}
-
+// removes all selected images
 function removeSelected() {
     const thumbChecked = document.querySelectorAll(".thumbChecked");
     for (let i = 0; i < thumbChecked.length; i++) {
@@ -131,37 +125,28 @@ function removeSelected() {
     }
 }
 
-//-----------------------------------------------------------------------------------
+//-------------------------------------DOWNLOAD IMAGES----------------------------------------------
 
-let downloadImageSelect = false;
-let linksToDownloadImage = [];
-const selectDownload = document.querySelector("#selectDownload");
-
+// click on selectdownload button
 selectDownload.addEventListener("click", event => {
     event.preventDefault();
     removeSelected();
+
     if (downloadImageSelect == true) {
         downloadImageSelect = false;
-        // console.log("1", downloadImageSelect);
-        for (let i = 0; i < linkAllImgArr.length; i++) {
-            setAElLink(i, linkAllImgArr[i], true);
-        }
         linksToDownloadImage.length = 0;
         $('#download').css("display", "none");
     }
     else {
         downloadImageSelect = true;
-        // console.log("2", downloadImageSelect);
-        for (let i = 0; i < linkAllImgArr.length; i++) {
-            setAElLink(i, "", false);
-        }
     }
-})
+});
 
+// selecting images the user want to download
 $('#imgContainer').on('click', '.thumb', function (event) {
     if (downloadImageSelect) {
+
         $(this).removeClass().addClass('thumbChecked');
-        // $(this).css("border", "2px solid #c32032");
         linksToDownloadImage.push($(this).attr('src'));
         console.log(linksToDownloadImage);
 
@@ -172,13 +157,13 @@ $('#imgContainer').on('click', '.thumb', function (event) {
     }
 });
 
+// unselecting images the user has clicked on
 $('#imgContainer').on('click', '.thumbChecked', function (event) {
     if (downloadImageSelect) {
 
         $(this).removeClass().addClass('thumb');
         let itemtoRemove = $(this).attr('src');
         linksToDownloadImage.splice($.inArray(itemtoRemove, linksToDownloadImage), 1);
-        // console.log(linksToDownloadImage);
 
         if (linksToDownloadImage.length == 0) {
             $('#download').css("display", "none");
@@ -187,8 +172,10 @@ $('#imgContainer').on('click', '.thumbChecked', function (event) {
     }
 });
 
+const downBtnImg = document.querySelector("#download");
+downBtnImg.addEventListener("click", generateZIP);
+//generates zip files with selected images
 function generateZIP() {
-    // console.log('TEST');
     if (linksToDownloadImage != 0) {
         let zip = new JSZip();
         let count = 0;
@@ -198,6 +185,7 @@ function generateZIP() {
             let filename = linksToDownloadImage[i];
             filename = filename.replace(/[\/\*\|\:\<\>\?\"\\]/gi, '').replace("httpslive.staticflickr.com", "");
             // loading a file and add it in a zip file
+
             JSZipUtils.getBinaryContent(url, function (err, data) {
                 if (err) {
                     throw err; // or handle the error

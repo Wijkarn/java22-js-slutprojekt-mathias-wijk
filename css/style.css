@@ -70,8 +70,12 @@ input, select, button{
     width: 33%;
 }
 
-#search, #selectDownload{
+#search{
     width: 50%;
+}
+#selectDownload{
+    width: 50%;
+    display: none;
 }
 
 /* ------------------------- */
