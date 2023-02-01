@@ -61,6 +61,9 @@ function getApiResponse(searchInput, sort, per_page) {
             if (response.status >= 200 && response.status < 300) {
                 return response.json();
             }
+            else{
+                throw "There has been an error getting the images.";
+            }
 
         })
         .then(showImage)
