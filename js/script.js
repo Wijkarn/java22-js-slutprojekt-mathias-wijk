@@ -143,14 +143,17 @@ function removeSelected() {
 selectDownload.addEventListener("click", event => {
     event.preventDefault();
     removeSelected();
+    console.log(downloadImageSelect)
 
     if (downloadImageSelect == true) {
         downloadImageSelect = false;
         linksToDownloadImage.length = 0;
         downBtnImg.style.display = "none";
+        selectDownload.style.border = "1px solid lightgray";
     }
     else {
         downloadImageSelect = true;
+        selectDownload.style.border = "1px solid #c32032";
     }
 });
 
