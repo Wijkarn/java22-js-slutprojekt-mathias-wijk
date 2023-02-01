@@ -45,6 +45,10 @@ form * {
     text-align: center;
 }
 
+#imgForm img{
+    width: 20%;
+}
+
 #imgForm {
     margin: 10px;
 }
@@ -73,10 +77,6 @@ input, select, button{
 #selectDownload{
     width: 50%;
     display: none;
-}
-
-#imgForm img{
-    width: 20%;
 }
 
 .thumb{

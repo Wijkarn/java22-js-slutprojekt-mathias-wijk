@@ -43,7 +43,7 @@ function getUserInput(event) {
             errorInfoEl.innerText = `Please fill in the search field.`;
         }
     }
-    else{
+    else {
         errorInfoEl.innerText = "Network error. Please check you connection!";
     }
 
@@ -83,12 +83,12 @@ function showImage(flickr) {
 
     linkAllImgArr.length = 0;
 
-    //checks if there are any photos from the response
+    // checks if there are any photos from the response
     if (flickr.photos.photo != 0) {
         selectDownload.style.display = "block";
         imgContainer.innerHTML = "";
 
-        //prints out all images 
+        // prints out all images 
         for (let i = 0; i < imagesFromFlickr; i++) {
             const linkToImage = document.createElement("a");
             const img = document.createElement("img");
@@ -180,7 +180,7 @@ $('#imgContainer').on('click', '.thumbChecked', function (event) {
     }
 });
 
-//generates zip files with selected images
+// generates zip files with selected images
 downBtnImg.addEventListener("click", generateZIP);
 function generateZIP() {
     if (linksToDownloadImage != 0) {
