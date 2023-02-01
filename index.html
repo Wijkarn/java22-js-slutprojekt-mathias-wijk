@@ -6,8 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slutprojekt Mathias Wijk Javascript</title>
-    <link rel="icon" type="image/x-icon" href="https://live.staticflickr.com/65535/48132270712_b4cef29766_s.jpg" id="icon">
+    <link rel="icon" type="image/x-icon" href="https://live.staticflickr.com/65535/48132270712_b4cef29766_s.jpg"
+        id="icon">
     <link rel="stylesheet" href="./css/style.css">
+    <script defer src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
     <script defer src="./js/script.js"></script>
 </head>
 
@@ -42,6 +47,11 @@
             <div>
                 <button class="formSmall">Get Images</button>
                 <label id="error"></label>
+            </div>
+            <div>
+                <button id="selectDownload">Press to download images</button>
+                <img id="download" src="https://live.staticflickr.com/2835/12763790733_0cdc0ba82f_b.jpg"
+                    onclick="generateZIP()" />
             </div>
         </form>
     </div>
