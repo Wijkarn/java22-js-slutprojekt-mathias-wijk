@@ -176,7 +176,6 @@ $('#imgContainer').on('click', '.thumbChecked', function (event) {
     if (downloadImageSelect) {
 
         $(this).removeClass().addClass('thumb');
-        $(this).css("border", "none");
         let itemtoRemove = $(this).attr('src');
         linksToDownloadImage.splice($.inArray(itemtoRemove, linksToDownloadImage), 1);
         // console.log(linksToDownloadImage);
